@@ -42,7 +42,7 @@ jobs:
         run: snyk auth ${{ secrets.SNYK_TOKEN }}       
       - name: print
         run: ls  
-      # SCA
+      # SCAa
       - name: Snyk test
         run: snyk test --all-projects
         continue-on-error: true
