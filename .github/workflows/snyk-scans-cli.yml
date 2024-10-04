@@ -23,6 +23,11 @@ jobs:
           wget -O snyk https://static.snyk.io/cli/latest/snyk-linux
           chmod +x ./snyk
           mv ./snyk /usr/local/bin/
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package.json') }}
       - name: Install dependencies
         run: npm install
       - name: Authenticate 
@@ -71,7 +76,7 @@ jobs:
     - name: Scan container
       run:  snyk container test boosef-juiceshop:latest --file=Dockerfile
       continue-on-error: true
-      
+
     - name: Monitor Docker Vulnerabilities
       run: snyk container monitor boosef-juiceshop:latest --file=Dockerfile
       continue-on-error: true
