@@ -23,6 +23,8 @@ jobs:
           wget -O snyk https://static.snyk.io/cli/latest/snyk-linux
           chmod +x ./snyk
           mv ./snyk /usr/local/bin/
+      - name: print
+        run: ls 
       - name: Get Node.js
         uses: actions/setup-node@v1
         with:
@@ -30,9 +32,8 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          key: deps-node-modules-${{ hashFiles('**/package.json') }}
-          path: |
-            **/node_modules
+          key: deps-node-modules-${{ hashFiles('package.json') }}
+          path: node_modules
 
           
       - name: Install dependencies
