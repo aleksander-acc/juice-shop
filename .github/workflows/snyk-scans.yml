@@ -22,7 +22,7 @@ jobs:
           key: deps-node-modules-${{ hashFiles('**/package.json') }}
           path: |
             **/node_modules
-            **/.npm
+            
         
       - name: Get Node.js
         uses: actions/setup-node@v1
