@@ -33,7 +33,7 @@ jobs:
           path: ~/.npm
           key: deps-node-modules-${{ hashFiles('**/package.json') }}
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Authenticate 
         run: snyk auth ${{ secrets.SNYK_TOKEN }}        
       # SCA

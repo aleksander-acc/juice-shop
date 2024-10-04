@@ -21,12 +21,12 @@ jobs:
         with:
           path: ~/.npm
           key: deps-node-modules-${{ hashFiles('**/package.json') }}
-      # - name: Get Node.js
-      #   uses: actions/setup-node@v1
-      #   with:
-      #     node-version: 18.4
+      - name: Get Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18.4
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - uses: snyk/actions/setup@master
       - name: Snyk Test
         run: snyk test 
