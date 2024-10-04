@@ -18,11 +18,11 @@ jobs:
       - uses: actions/checkout@master
       - name: Cache dependencies
         uses: actions/cache@v3
-       with:
-        key: deps-node-modules-${{ hashFiles('**/package.json') }}
-        path: |
-          **/node_modules
-          **/.npm
+        with:
+          key: deps-node-modules-${{ hashFiles('**/package.json') }}
+          path: |
+            **/node_modules
+            **/.npm
         
       - name: Get Node.js
         uses: actions/setup-node@v1
