@@ -27,6 +27,7 @@ jobs:
         run: npm install
       - name: Authenticate 
         run: snyk auth ${{ secrets.SNYK_TOKEN }}        
+      # SCA
       - name: Snyk test
         run: snyk test --all-projects
         continue-on-error: true
@@ -34,6 +35,7 @@ jobs:
         run: snyk monitor
         continue-on-error: true
   snyk-code:
+
     environment: snyk
     runs-on: ubuntu-latest
     steps:
@@ -43,11 +45,14 @@ jobs:
           wget -O snyk https://static.snyk.io/cli/latest/snyk-linux
           chmod +x ./snyk
           mv ./snyk /usr/local/bin/
-      - name: Configure and run Snyk Code Scan
-        run: | 
-          snyk auth ${{ secrets.SNYK_TOKEN }}
-          snyk code test
+
+      - name: Authenticate 
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}      
+    # SAST
+      - name: Run Snyk Code Scan
+        run: snyk code test
         continue-on-error: true
+
   snyk-container:
     environment: snyk
     runs-on: ubuntu-latest
@@ -60,11 +65,15 @@ jobs:
         wget -O snyk https://static.snyk.io/cli/latest/snyk-linux
         chmod +x ./snyk
         mv ./snyk /usr/local/bin/
-    - name: Scan and Monitor Docker Vulnerabilities
-      run: |   
-        snyk auth ${{ secrets.SNYK_TOKEN }}
-        snyk container test boosef-juiceshop:latest --file=Dockerfile
-        snyk container monitor boosef-juiceshop:latest --file=Dockerfile
+    - name: Authenticate 
+      run: snyk auth ${{ secrets.SNYK_TOKEN }}  
+
+    - name: Scan container
+      run:  snyk container test boosef-juiceshop:latest --file=Dockerfile
+      continue-on-error: true
+      
+    - name: Monitor Docker Vulnerabilities
+      run: snyk container monitor boosef-juiceshop:latest --file=Dockerfile
       continue-on-error: true
 
   snyk-iac:
@@ -77,8 +86,10 @@ jobs:
         wget -O snyk https://static.snyk.io/cli/latest/snyk-linux
         chmod +x ./snyk
         mv ./snyk /usr/local/bin/
-    - name: Run and monitor Snyk to check configuration files for security issues
-      run: |   
-        snyk auth ${{ secrets.SNYK_TOKEN }}
-        snyk iac test --report
+
+    - name: Authenticate 
+      run: snyk auth ${{ secrets.SNYK_TOKEN }}  
+
+    - name: Run snyk IAC
+      run: snyk iac test --report
       continue-on-error: true
