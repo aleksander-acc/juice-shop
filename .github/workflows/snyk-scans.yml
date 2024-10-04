@@ -2,7 +2,7 @@ name: Snyk Full Platform
 
 # Prerequisites:
 # - Set a SNYK_TOKEN under env secrets in an env called "Snyk"
-# trigger
+
 on:
   push:
     branches: [ "master" ]
@@ -21,10 +21,8 @@ jobs:
         with:
           node-version: 18.4
       - uses: snyk/actions/setup@master
-      - name: Snyk OS Test
-        run: | 
-          npm install snyk
-          snyk test 
+      - name: Snyk Test
+        run: snyk test 
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
