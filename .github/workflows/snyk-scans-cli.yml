@@ -23,6 +23,10 @@ jobs:
           wget -O snyk https://static.snyk.io/cli/latest/snyk-linux
           chmod +x ./snyk
           mv ./snyk /usr/local/bin/
+      - name: Get Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18.4
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
