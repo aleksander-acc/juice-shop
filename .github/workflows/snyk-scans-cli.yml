@@ -33,7 +33,7 @@ jobs:
           path: |
           **/node_modules
           **/.npm
-          key: deps-node-modules-${{ hashFiles('**/package.json') }}
+        key: deps-node-modules-${{ hashFiles('**/package.json') }}
       - name: Install dependencies
         run: npm install
       - name: Authenticate 
