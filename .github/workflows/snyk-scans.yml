@@ -27,7 +27,7 @@ jobs:
       - name: Get Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 18.10
+          node-version: 18.10.0
       - name: Install dependencies
         run: npm install
       - uses: snyk/actions/setup@master
