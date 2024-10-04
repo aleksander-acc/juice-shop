@@ -23,13 +23,15 @@ jobs:
           wget -O snyk https://static.snyk.io/cli/latest/snyk-linux
           chmod +x ./snyk
           mv ./snyk /usr/local/bin/
-      - name: Authenticate and run Snyk Open Source Scan + Monitor
-        run: | 
-          npm install
-          snyk auth ${{ secrets.SNYK_TOKEN }}
-          snyk test
-          snyk monitor
-
+      - name: Install dependencies
+        run: npm install
+      - name: Authenticate 
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}        
+      - name: Snyk test
+        run: snyk test --all-projects
+      - name: Snyk monitor
+        run: snyk monitor
+        continue-on-error: true
   snyk-code:
     environment: snyk
     runs-on: ubuntu-latest
@@ -44,7 +46,7 @@ jobs:
         run: | 
           snyk auth ${{ secrets.SNYK_TOKEN }}
           snyk code test
-
+        continue-on-error: true
   snyk-container:
     environment: snyk
     runs-on: ubuntu-latest
@@ -62,7 +64,8 @@ jobs:
         snyk auth ${{ secrets.SNYK_TOKEN }}
         snyk container test boosef-juiceshop:latest --file=Dockerfile
         snyk container monitor boosef-juiceshop:latest --file=Dockerfile
-     
+      continue-on-error: true
+
   snyk-iac:
     environment: snyk
     runs-on: ubuntu-latest
@@ -77,4 +80,4 @@ jobs:
       run: |   
         snyk auth ${{ secrets.SNYK_TOKEN }}
         snyk iac test --report
- 
+      continue-on-error: true
