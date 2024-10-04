@@ -9,9 +9,10 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+  workflow_dispatch:
+  
 
 jobs:
-
   snyk-os:
     environment: snyk
     runs-on: ubuntu-latest
