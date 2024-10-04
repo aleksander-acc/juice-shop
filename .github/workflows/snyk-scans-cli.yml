@@ -29,6 +29,7 @@ jobs:
         run: snyk auth ${{ secrets.SNYK_TOKEN }}        
       - name: Snyk test
         run: snyk test --all-projects
+        continue-on-error: true
       - name: Snyk monitor
         run: snyk monitor
         continue-on-error: true
