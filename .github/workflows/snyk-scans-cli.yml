@@ -1,5 +1,4 @@
-name: Snyk Full Platform (CLI)
-
+name: Snyk CLI
 # Prerequisites:
 # - Set a SNYK_TOKEN under env secrets in an env called "Snyk"
 # - If you are not running the scan on your default org in Snyk, set the org id in a secret called SNYK_ORG in the same env as above (env called "Snyk") and add an additional --org=${{ secrets.SNYK_ORG }} parameter in all the test commands 
@@ -13,7 +12,8 @@ on:
   
 
 jobs:
-  snyk-os:
+# SCA
+  snyk-test:
     environment: snyk
     runs-on: ubuntu-latest
     steps:
@@ -33,24 +33,21 @@ jobs:
         uses: actions/cache@v3
         with:
           key: deps-node-modules-${{ hashFiles('package.json') }}
-          path: node_modules
-
-          
+          path: node_modules          
       - name: Install dependencies
         run: npm install
       - name: Authenticate 
         run: snyk auth ${{ secrets.SNYK_TOKEN }}       
       - name: print
-        run: ls  
-      # SCA
+        run: ls    
       - name: Snyk test
         run: snyk test --all-projects
         continue-on-error: true
       - name: Snyk monitor
         run: snyk monitor
         continue-on-error: true
-  snyk-code:
-
+# SAST 
+  snyk-test-code:
     environment: snyk
     runs-on: ubuntu-latest
     steps:
@@ -63,12 +60,11 @@ jobs:
 
       - name: Authenticate 
         run: snyk auth ${{ secrets.SNYK_TOKEN }}      
-    # SAST
       - name: Run Snyk Code Scan
         run: snyk code test
         continue-on-error: true
 
-  snyk-container:
+  snyk-test-container:
     environment: snyk
     runs-on: ubuntu-latest
     steps:
@@ -91,7 +87,7 @@ jobs:
       run: snyk container monitor boosef-juiceshop:latest --file=Dockerfile
       continue-on-error: true
 
-  snyk-iac:
+  snyk-test-iac:
     environment: snyk
     runs-on: ubuntu-latest
     steps:
