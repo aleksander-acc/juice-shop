@@ -12,7 +12,7 @@ on:
 
 jobs:
 
-# SCA
+  # SCA
   snyk-test:
     environment: snyk
     runs-on: ubuntu-latest
@@ -47,7 +47,7 @@ jobs:
         run: snyk monitor
         continue-on-error: true
 
-# SAST 
+  # SAST 
   snyk-test-code:
     environment: snyk
     runs-on: ubuntu-latest
@@ -86,7 +86,7 @@ jobs:
       run: snyk container monitor boosef-juiceshop:latest --file=Dockerfile
       continue-on-error: true
 
-  #IAC
+  # IAC
   snyk-test-iac:
     environment: snyk
     runs-on: ubuntu-latest
