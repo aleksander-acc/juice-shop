@@ -9,7 +9,9 @@ on:
   pull_request:
     branches: [ "master" ]
   workflow_dispatch:
+
 jobs:
+
   # SCA
   snyk-test:
     environment: snyk
@@ -20,8 +22,7 @@ jobs:
         uses: actions/cache@v3
         with:
           key: deps-node-modules-${{ hashFiles('package.json') }}
-          path: node_modules           
-        
+          path: node_modules                   
       - name: Get Node.js
         uses: actions/setup-node@v1
         with:
@@ -39,6 +40,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{secrets.SNYK_TOKEN}}
         continue-on-error: true
+
   # SAST
   snyk-test-code:
     environment: snyk
@@ -52,6 +54,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
+  # Container
   snyk-container:
     environment: snyk
     runs-on: ubuntu-latest
@@ -68,6 +71,7 @@ jobs:
         command: monitor
       continue-on-error: true
 
+  # IAC
   snyk-iac:
     environment: snyk
     runs-on: ubuntu-latest
